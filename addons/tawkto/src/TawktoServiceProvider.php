@@ -76,26 +76,7 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
 
     protected function injectWidget()
     {
-        try {
-            $url = setting('tawkto_chat_url');
-        } catch (\Throwable $e) {
-            Log::error('Tawkto addon: failed to get chat URL setting: ' . $e->getMessage(), [
-                'exception' => $e,
-            ]);
-            return;
-        }
-
-        if (empty($url)) {
-            return;
-        }
-
-        $script = $this->generateScript($url);
-
-        if (empty($script)) {
-            return;
-        }
-
-        Event::listen(RequestHandled::class, function (RequestHandled $event) use ($script) {
+        $this->app['events']->listen(RequestHandled::class, function (RequestHandled $event) {
             $request = $event->request;
             $response = $event->response;
 
@@ -107,13 +88,42 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
                 return;
             }
 
+            $contentType = $response->headers->get('Content-Type', '');
+            if (!str_contains($contentType, 'text/html')) {
+                return;
+            }
+
+            try {
+                $url = setting('tawkto_chat_url');
+            } catch (\Throwable $e) {
+                Log::error('Tawkto addon: failed to get chat URL setting: ' . $e->getMessage(), [
+                    'exception' => $e,
+                ]);
+                return;
+            }
+
+            if (empty($url)) {
+                return;
+            }
+
+            $script = $this->generateScript($url);
+
+            if (empty($script)) {
+                return;
+            }
+
             $content = $response->getContent();
 
             if (empty($content)) {
                 return;
             }
 
-            $content = str_replace('</body>', $script . "\n</body>", $content);
+            $bodyPos = strripos($content, '</body>');
+            if ($bodyPos === false) {
+                return;
+            }
+
+            $content = substr_replace($content, $script . "\n</body>", $bodyPos, 7);
             $response->setContent($content);
         });
     }
