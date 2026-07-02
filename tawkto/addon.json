@@ -1,0 +1,13 @@
+{
+    "name": "Tawkto",
+    "description": "Tawk.to Live Chat Integration for ClientXCMS",
+    "uuid": "tawkto",
+    "version": "1.0",
+    "author": {
+        "name": "Nathan T.",
+        "email": "nathan.t@paname-75.fr"
+    },
+    "providers": [
+        "App\\Addons\\Tawkto\\TawktoServiceProvider"
+    ]
+}
