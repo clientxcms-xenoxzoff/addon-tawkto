@@ -9,7 +9,7 @@ class TawktoAdminController
 {
     public function showSettings()
     {
-        return view('tawkto_admin::settings');
+        return view('tawkto::admin.settings');
     }
 
     public function updateSettings(Request $request)

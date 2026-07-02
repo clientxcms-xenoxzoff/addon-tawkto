@@ -6,7 +6,6 @@ use App\Addons\Tawkto\Controllers\TawktoAdminController;
 use App\Core\Menu\AdminMenuItem;
 use App\Extensions\BaseAddonServiceProvider;
 use Illuminate\Foundation\Http\Events\RequestHandled;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Log;
 
 class TawktoServiceProvider extends BaseAddonServiceProvider
