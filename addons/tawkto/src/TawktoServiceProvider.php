@@ -72,7 +72,11 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
 
     protected function injectWidget()
     {
-        $url = setting('tawkto_chat_url');
+        try {
+            $url = setting('tawkto_chat_url');
+        } catch (\Throwable $e) {
+            return;
+        }
 
         if (empty($url)) {
             return;
