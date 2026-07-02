@@ -111,7 +111,7 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
     {
         $path = parse_url($url, PHP_URL_PATH);
 
-        if (!preg_match('#^/chat/([a-z0-9]+)/([a-z0-9]+)$#i', $path, $matches)) {
+        if ($path === null || !preg_match('#^/chat/([a-z0-9]+)/([a-z0-9]+)$#i', $path, $matches)) {
             return null;
         }
 

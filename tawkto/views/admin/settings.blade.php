@@ -10,7 +10,7 @@
         <form method="POST" action="{{ route('tawkto.settings') }}">
             @csrf
             @method('PUT')
-            <div class="grid grid-cols-1 gap-4">
+            <div class="grid grid-cols-1 gap-4 mb-4">
                 <div>
                     @include('shared/input', [
                         'name' => 'tawkto_chat_url',
