@@ -3,6 +3,7 @@
 namespace App\Addons\Tawkto;
 
 use App\Addons\Tawkto\Controllers\TawktoAdminController;
+use App\Core\Menu\AdminMenuItem;
 use App\Extensions\BaseAddonServiceProvider;
 use Illuminate\Support\Facades\View;
 
@@ -43,6 +44,17 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
                 'bi bi-chat-dots',
                 [TawktoAdminController::class, 'showSettings'],
                 'admin.tawkto'
+            );
+
+            $this->app['extension']->addAdminMenuItem(
+                new AdminMenuItem(
+                    'tawkto',
+                    'tawkto.admin',
+                    'bi bi-chat-dots',
+                    'tawkto::messages.admin.menu_title',
+                    30,
+                    'admin.tawkto'
+                )
             );
 
             \Route::middleware(['web', 'admin'])
