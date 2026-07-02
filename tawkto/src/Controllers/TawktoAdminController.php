@@ -2,8 +2,8 @@
 
 namespace App\Addons\Tawkto\Controllers;
 
+use App\Models\Admin\Setting;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class TawktoAdminController
 {
@@ -18,11 +18,8 @@ class TawktoAdminController
             'tawkto_widget_id' => 'required|string|max:100',
         ]);
 
-        DB::table('settings')->updateOrInsert(
-            ['key' => 'tawkto_widget_id'],
-            ['value' => $validated['tawkto_widget_id']]
-        );
+        Setting::updateSettings($validated);
 
-        return redirect()->back()->with('success', __('tawkto::messages.admin.settings.saved'));
+        return back()->with('success', __('tawkto::messages.admin.settings.saved'));
     }
 }
