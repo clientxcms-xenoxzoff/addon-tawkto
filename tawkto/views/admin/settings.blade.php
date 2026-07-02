@@ -7,7 +7,7 @@
                 {{ __('tawkto::messages.admin.settings.title') }}
             </h4>
         </div>
-        <form method="POST" action="{{ route('tawkto.admin.settings.update') }}">
+        <form method="POST" action="{{ route('tawkto.settings') }}">
             @csrf
             @method('PUT')
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
