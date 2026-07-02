@@ -10,12 +10,13 @@
         <form method="POST" action="{{ route('tawkto.settings') }}">
             @csrf
             @method('PUT')
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 gap-4">
                 <div>
-                    @include('shared/input', [
-                        'name' => 'tawkto_widget_id',
-                        'label' => __('tawkto::messages.admin.settings.widget_id'),
-                        'value' => setting('tawkto_widget_id'),
+                    @include('shared/textarea', [
+                        'name' => 'tawkto_widget_code',
+                        'label' => __('tawkto::messages.admin.settings.widget_code'),
+                        'value' => setting('tawkto_widget_code'),
+                        'rows' => 6,
                     ])
                 </div>
             </div>

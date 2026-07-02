@@ -15,7 +15,7 @@ class TawktoAdminController
     public function updateSettings(Request $request)
     {
         $validated = $request->validate([
-            'tawkto_widget_id' => 'required|string|max:100',
+            'tawkto_widget_code' => 'required|string',
         ]);
 
         Setting::updateSettings($validated);

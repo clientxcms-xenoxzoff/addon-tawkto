@@ -71,31 +71,14 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
 
     protected function injectWidget()
     {
-        $widgetId = setting('tawkto_widget_id');
+        $code = setting('tawkto_widget_code');
 
-        if (empty($widgetId)) {
+        if (empty($code)) {
             return;
         }
 
-        View::composer('default::layouts.app', function ($view) use ($widgetId) {
-            $view->with('tawkto_widget', $this->widgetScript($widgetId));
+        View::composer('default::layouts.app', function ($view) use ($code) {
+            $view->with('tawkto_widget', $code);
         });
-    }
-
-    protected function widgetScript(string $widgetId): string
-    {
-        return <<<HTML
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/{$widgetId}/default';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-HTML;
     }
 }
