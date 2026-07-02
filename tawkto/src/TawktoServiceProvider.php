@@ -5,7 +5,8 @@ namespace App\Addons\Tawkto;
 use App\Addons\Tawkto\Controllers\TawktoAdminController;
 use App\Core\Menu\AdminMenuItem;
 use App\Extensions\BaseAddonServiceProvider;
-use Illuminate\Support\Facades\View;
+use Illuminate\Foundation\Http\Events\RequestHandled;
+use Illuminate\Support\Facades\Event;
 
 class TawktoServiceProvider extends BaseAddonServiceProvider
 {
@@ -77,8 +78,26 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
             return;
         }
 
-        View::composer('default::layouts.app', function ($view) use ($code) {
-            $view->with('tawkto_widget', $code);
+        Event::listen(RequestHandled::class, function (RequestHandled $event) use ($code) {
+            $request = $event->request;
+            $response = $event->response;
+
+            if ($request->is(admin_prefix() . '/*')) {
+                return;
+            }
+
+            if (!$response instanceof \Illuminate\Http\Response) {
+                return;
+            }
+
+            $content = $response->getContent();
+
+            if (empty($content)) {
+                return;
+            }
+
+            $content = str_replace('</body>', $code . "\n</body>", $content);
+            $response->setContent($content);
         });
     }
 }
