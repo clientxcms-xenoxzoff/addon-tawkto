@@ -7,6 +7,7 @@ use App\Core\Menu\AdminMenuItem;
 use App\Extensions\BaseAddonServiceProvider;
 use Illuminate\Foundation\Http\Events\RequestHandled;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
 
 class TawktoServiceProvider extends BaseAddonServiceProvider
 {
@@ -67,6 +68,9 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
 
             $this->injectWidget();
         } catch (\Throwable $e) {
+            Log::error('Tawkto addon boot failed: ' . $e->getMessage(), [
+                'exception' => $e,
+            ]);
         }
     }
 
@@ -75,6 +79,9 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
         try {
             $url = setting('tawkto_chat_url');
         } catch (\Throwable $e) {
+            Log::error('Tawkto addon: failed to get chat URL setting: ' . $e->getMessage(), [
+                'exception' => $e,
+            ]);
             return;
         }
 
@@ -116,6 +123,7 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
         $path = parse_url($url, PHP_URL_PATH);
 
         if ($path === null || !preg_match('#^/chat/([a-z0-9]+)/([a-z0-9]+)$#i', $path, $matches)) {
+            Log::warning('Tawkto addon: invalid chat URL format: ' . $url);
             return null;
         }
 
