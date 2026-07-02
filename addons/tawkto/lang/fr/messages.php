@@ -12,6 +12,7 @@ return [
             'title' => 'Configuration Tawk.to',
             'description' => 'Entrez votre lien de chat direct Tawk.to pour activer le live chat sur votre espace client.',
             'chat_url' => 'Lien de Chat Direct',
+            'chat_url_help' => 'Collez votre lien de chat direct Tawk.to, ex. https://tawk.to/chat/xxxxxxxxxxxx/xxxxxxxxx. Laissez vide et sauvegardez pour désactiver le widget.',
             'saved' => 'Les paramètres Tawk.to ont été enregistrés avec succès.',
         ],
     ],

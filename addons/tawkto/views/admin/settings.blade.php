@@ -20,6 +20,9 @@
                     ])
                 </div>
             </div>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                {{ __('tawkto::messages.admin.settings.chat_url_help') }}
+            </p>
             <button type="submit" class="btn btn-primary">{{ __('global.save') }}</button>
         </form>
     </div>
