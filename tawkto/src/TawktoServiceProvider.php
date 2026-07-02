@@ -72,13 +72,19 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
 
     protected function injectWidget()
     {
-        $code = setting('tawkto_widget_code');
+        $url = setting('tawkto_chat_url');
 
-        if (empty($code)) {
+        if (empty($url)) {
             return;
         }
 
-        Event::listen(RequestHandled::class, function (RequestHandled $event) use ($code) {
+        $script = $this->generateScript($url);
+
+        if (empty($script)) {
+            return;
+        }
+
+        Event::listen(RequestHandled::class, function (RequestHandled $event) use ($script) {
             $request = $event->request;
             $response = $event->response;
 
@@ -96,8 +102,36 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
                 return;
             }
 
-            $content = str_replace('</body>', $code . "\n</body>", $content);
+            $content = str_replace('</body>', $script . "\n</body>", $content);
             $response->setContent($content);
         });
+    }
+
+    protected function generateScript(string $url): ?string
+    {
+        $path = parse_url($url, PHP_URL_PATH);
+
+        if (!preg_match('#^/chat/([a-z0-9]+)/([a-z0-9]+)$#i', $path, $matches)) {
+            return null;
+        }
+
+        $propertyId = $matches[1];
+        $widgetId = $matches[2];
+
+        return <<<HTML
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/{$propertyId}/{$widgetId}';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+HTML;
     }
 }

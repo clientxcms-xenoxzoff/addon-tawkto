@@ -15,7 +15,7 @@ class TawktoAdminController
     public function updateSettings(Request $request)
     {
         $validated = $request->validate([
-            'tawkto_widget_code' => 'required|string',
+            'tawkto_chat_url' => 'required|url|regex:/^https:\/\/tawk\.to\/chat\/[a-z0-9]+\/[a-z0-9]+$/i',
         ]);
 
         Setting::updateSettings($validated);

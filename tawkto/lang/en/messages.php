@@ -10,8 +10,8 @@ return [
         'menu_title' => 'Tawk.to Chat',
         'settings' => [
             'title' => 'Tawk.to Configuration',
-            'description' => 'Paste your Tawk.to widget code to enable live chat on your client area.',
-            'widget_code' => 'Widget Code',
+            'description' => 'Enter your Tawk.to direct chat link to enable live chat on your client area.',
+            'chat_url' => 'Direct Chat Link',
             'saved' => 'Tawk.to settings have been saved successfully.',
         ],
     ],

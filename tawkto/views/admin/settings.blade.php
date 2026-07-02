@@ -12,11 +12,11 @@
             @method('PUT')
             <div class="grid grid-cols-1 gap-4">
                 <div>
-                    @include('shared/textarea', [
-                        'name' => 'tawkto_widget_code',
-                        'label' => __('tawkto::messages.admin.settings.widget_code'),
-                        'value' => setting('tawkto_widget_code'),
-                        'rows' => 6,
+                    @include('shared/input', [
+                        'name' => 'tawkto_chat_url',
+                        'label' => __('tawkto::messages.admin.settings.chat_url'),
+                        'value' => setting('tawkto_chat_url'),
+                        'placeholder' => 'https://tawk.to/chat/xxxxxxxxxxxx/xxxxxxxxx',
                     ])
                 </div>
             </div>
