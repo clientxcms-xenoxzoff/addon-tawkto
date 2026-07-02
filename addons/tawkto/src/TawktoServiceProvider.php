@@ -67,6 +67,7 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
 
             $this->injectWidget();
         } catch (\Throwable $e) {
+            throw $e;
         }
     }
 
