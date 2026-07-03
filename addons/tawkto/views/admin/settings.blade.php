@@ -1,10 +1,10 @@
 @extends('admin.settings.sidebar')
-@section('title', __('tawkto::messages.admin.settings.title'))
+@section('title', 'Tawk.to Configuration')
 @section('setting')
     <div class="card">
         <div class="flex justify-between">
             <h4 class="font-semibold uppercase text-gray-600 dark:text-gray-400">
-                {{ __('tawkto::messages.admin.settings.title') }}
+                Tawk.to Configuration
             </h4>
             <form method="POST" action="{{ route('tawkto.settings') }}">
                 @csrf
@@ -13,7 +13,7 @@
                     <div>
                         @include('shared/input', [
                             'name' => 'tawkto_chat_url',
-                            'label' => __('tawkto::messages.admin.settings.chat_url'),
+                            'label' => 'Direct Chat Link',
                             'value' => setting('tawkto_chat_url'),
                             'placeholder' => 'https://tawk.to/chat/xxxxxxxxxxxx/xxxxxxxxx',
                         ])
