@@ -2,6 +2,8 @@
 
 namespace App\Addons\Tawkto;
 
+use App\Addons\Tawkto\Controllers\TawktoAdminController;
+use App\Core\Menu\AdminMenuItem;
 use App\Extensions\BaseAddonServiceProvider;
 use Illuminate\Foundation\Http\Events\RequestHandled;
 use Illuminate\Support\Facades\Event;
@@ -32,8 +34,36 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
                 4,
                 null,
                 true,
-                1
+                8
             );
+
+            $this->app['settings']->addCardItem(
+                'tawkto',
+                'tawkto',
+                'Tawk.to Configuration',
+                'Enter your Tawk.to direct chat link',
+                'bi bi-chat-dots',
+                [TawktoAdminController::class, 'showSettings'],
+                'admin.tawkto'
+            );
+
+            $this->app['extension']->addAdminMenuItem(
+                new AdminMenuItem(
+                    'tawkto',
+                    'tawkto.admin',
+                    'bi bi-chat-dots',
+                    'Tawk.to Chat',
+                    30,
+                    'admin.tawkto'
+                )
+            );
+
+            \Route::middleware(['web', 'admin'])
+                ->prefix(admin_prefix())
+                ->name($this->uuid . '.')
+                ->group(function () {
+                    require addon_path($this->uuid, 'routes/admin.php');
+                });
 
             $this->injectWidget();
         } catch (\Throwable $e) {
