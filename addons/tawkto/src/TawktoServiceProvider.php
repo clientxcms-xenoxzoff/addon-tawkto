@@ -23,12 +23,10 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
                 return;
             }
 
-            $this->loadViews();
-            $this->loadTranslations();
-            $this->loadViewsFrom(__DIR__ . '/../views/admin', 'tawkto_admin');
-            $this->loadViewsFrom(__DIR__ . '/../views/default', 'tawkto');
-            $this->loadTranslationsFrom(__DIR__ . '/../lang', 'tawkto');
             $this->loadMigrations();
+            app('view')->addNamespace('tawkto_admin', __DIR__ . '/../views/admin');
+            app('view')->addNamespace('tawkto', __DIR__ . '/../views/default');
+            app('translator')->addNamespace('tawkto', __DIR__ . '/../lang');
 
             $this->app['settings']->addCard(
                 'tawkto',
