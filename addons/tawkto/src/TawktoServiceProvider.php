@@ -52,7 +52,7 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
                     'bi bi-chat-dots',
                 'Tawk.to Chat',
                 30,
-                null
+                'admin.all'
                 )
             );
 
