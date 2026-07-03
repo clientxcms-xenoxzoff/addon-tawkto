@@ -1,7 +1,7 @@
 [
     {
         "name": "admin.tawkto",
-        "label": "permissions.tawkto",
+        "label": "Manage Tawkto settings",
         "group": "permissions.admin"
     }
 ]

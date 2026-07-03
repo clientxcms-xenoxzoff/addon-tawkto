@@ -20,6 +20,6 @@ class TawktoAdminController
 
         Setting::updateSettings($validated);
 
-        return back()->with('success', 'Tawk.to settings saved');
+        return back()->with('success', __('tawkto::messages.admin.settings.saved'));
     }
 }
