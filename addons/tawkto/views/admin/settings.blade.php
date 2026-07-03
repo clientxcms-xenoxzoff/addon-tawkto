@@ -1,7 +1,7 @@
 @extends('admin.settings.sidebar')
 @section('title', 'Tawk.to Configuration')
 @section('setting')
-    <div class="card w-full">
+    <div class="card">
         <div class="flex justify-between">
             <h4 class="font-semibold uppercase text-gray-600 dark:text-gray-400">
                 Tawk.to Configuration
@@ -17,6 +17,7 @@
                             'value' => setting('tawkto_chat_url'),
                             'placeholder' => 'https://tawk.to/chat/xxxxxxxxxxxx/xxxxxxxxx',
                         ])
+                        <p class="text-sm text-gray-500 mt-1">Enter your Tawk.to direct chat link (e.g. https://tawk.to/chat/xxxxxxxxxxxx/xxxxxxxxx). Leave empty to disable.</p>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">{{ __('global.save') }}</button>

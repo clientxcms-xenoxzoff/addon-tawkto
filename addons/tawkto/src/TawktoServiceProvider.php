@@ -42,7 +42,7 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
                 'Enter your Tawk.to direct chat link',
                 'bi bi-chat-dots',
                 [TawktoAdminController::class, 'showSettings'],
-                'admin.tawkto'
+                null
             );
 
             $this->app['extension']->addAdminMenuItem(
@@ -50,9 +50,9 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
                     'tawkto',
                     'tawkto.admin',
                     'bi bi-chat-dots',
-                    'Tawk.to Chat',
-                    30,
-                    'admin.tawkto'
+                'Tawk.to Chat',
+                30,
+                null
                 )
             );
 
