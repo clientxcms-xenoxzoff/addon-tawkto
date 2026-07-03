@@ -25,6 +25,9 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
 
             $this->loadViews();
             $this->loadTranslations();
+            $this->loadViewsFrom(__DIR__ . '/../views/admin', 'tawkto_admin');
+            $this->loadViewsFrom(__DIR__ . '/../views/default', 'tawkto');
+            $this->loadTranslationsFrom(__DIR__ . '/../lang', 'tawkto');
             $this->loadMigrations();
 
             $this->app['settings']->addCard(
