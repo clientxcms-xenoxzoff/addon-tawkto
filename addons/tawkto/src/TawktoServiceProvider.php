@@ -6,7 +6,7 @@ use App\Addons\Tawkto\Controllers\TawktoAdminController;
 use App\Core\Menu\AdminMenuItem;
 use App\Extensions\BaseAddonServiceProvider;
 use Illuminate\Foundation\Http\Events\RequestHandled;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Event;
 
 class TawktoServiceProvider extends BaseAddonServiceProvider
 {
@@ -67,15 +67,28 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
 
             $this->injectWidget();
         } catch (\Throwable $e) {
-            Log::error('Tawkto addon boot failed: ' . $e->getMessage(), [
-                'exception' => $e,
-            ]);
         }
     }
 
     protected function injectWidget()
     {
-        $this->app['events']->listen(RequestHandled::class, function (RequestHandled $event) {
+        try {
+            $url = setting('tawkto_chat_url');
+        } catch (\Throwable $e) {
+            return;
+        }
+
+        if (empty($url)) {
+            return;
+        }
+
+        $script = $this->generateScript($url);
+
+        if (empty($script)) {
+            return;
+        }
+
+        Event::listen(RequestHandled::class, function (RequestHandled $event) use ($script) {
             $request = $event->request;
             $response = $event->response;
 
@@ -87,42 +100,13 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
                 return;
             }
 
-            $contentType = $response->headers->get('Content-Type', '');
-            if (!str_contains($contentType, 'text/html')) {
-                return;
-            }
-
-            try {
-                $url = setting('tawkto_chat_url');
-            } catch (\Throwable $e) {
-                Log::error('Tawkto addon: failed to get chat URL setting: ' . $e->getMessage(), [
-                    'exception' => $e,
-                ]);
-                return;
-            }
-
-            if (empty($url)) {
-                return;
-            }
-
-            $script = $this->generateScript($url);
-
-            if (empty($script)) {
-                return;
-            }
-
             $content = $response->getContent();
 
             if (empty($content)) {
                 return;
             }
 
-            $bodyPos = strripos($content, '</body>');
-            if ($bodyPos === false) {
-                return;
-            }
-
-            $content = substr_replace($content, $script . "\n</body>", $bodyPos, 7);
+            $content = str_replace('</body>', $script . "\n</body>", $content);
             $response->setContent($content);
         });
     }
@@ -132,7 +116,6 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
         $path = parse_url($url, PHP_URL_PATH);
 
         if ($path === null || !preg_match('#^/chat/([a-z0-9]+)/([a-z0-9]+)$#i', $path, $matches)) {
-            Log::warning('Tawkto addon: invalid chat URL format: ' . $url);
             return null;
         }
 
