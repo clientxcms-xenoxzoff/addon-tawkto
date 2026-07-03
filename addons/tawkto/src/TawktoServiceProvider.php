@@ -2,7 +2,6 @@
 
 namespace App\Addons\Tawkto;
 
-use App\Addons\Tawkto\Controllers\TawktoAdminController;
 use App\Extensions\BaseAddonServiceProvider;
 use Illuminate\Foundation\Http\Events\RequestHandled;
 use Illuminate\Support\Facades\Event;
@@ -25,6 +24,16 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
             $this->loadViews();
             $this->loadTranslations();
             $this->loadMigrations();
+
+            $this->app['settings']->addCard(
+                'tawkto',
+                'Tawkto',
+                'Configure your Tawk.to live chat',
+                4,
+                null,
+                true,
+                1
+            );
 
             $this->injectWidget();
         } catch (\Throwable $e) {
