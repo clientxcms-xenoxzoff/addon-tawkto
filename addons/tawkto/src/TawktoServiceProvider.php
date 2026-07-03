@@ -14,17 +14,7 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
 
     public function register()
     {
-    }
-
-    public function boot()
-    {
         try {
-            if (!is_installed()) {
-                return;
-            }
-
-            $this->loadViews();
-
             $this->app['settings']->addCard(
                 'tawkto',
                 'Tawkto',
@@ -44,6 +34,18 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
                 [TawktoAdminController::class, 'showSettings'],
                 'admin.tawkto'
             );
+        } catch (\Throwable $e) {
+        }
+    }
+
+    public function boot()
+    {
+        try {
+            if (!is_installed()) {
+                return;
+            }
+
+            $this->loadViews();
 
             $this->app['extension']->addAdminMenuItem(
                 new AdminMenuItem(
