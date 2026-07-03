@@ -23,15 +23,12 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
                 return;
             }
 
-            $this->loadMigrations();
             app('view')->addNamespace('tawkto_admin', __DIR__ . '/../views/admin');
-            app('view')->addNamespace('tawkto', __DIR__ . '/../views/default');
-            app('translator')->addNamespace('tawkto', __DIR__ . '/../lang');
 
             $this->app['settings']->addCard(
                 'tawkto',
-                'tawkto::messages.admin.title',
-                'tawkto::messages.admin.subheading',
+                'Tawkto',
+                'Configure your Tawk.to live chat',
                 4,
                 null,
                 true,
@@ -41,8 +38,8 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
             $this->app['settings']->addCardItem(
                 'tawkto',
                 'tawkto',
-                'tawkto::messages.admin.settings.title',
-                'tawkto::messages.admin.settings.description',
+                'Tawk.to Configuration',
+                'Enter your Tawk.to direct chat link',
                 'bi bi-chat-dots',
                 [TawktoAdminController::class, 'showSettings'],
                 'admin.tawkto'
@@ -53,7 +50,7 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
                     'tawkto',
                     'tawkto.admin',
                     'bi bi-chat-dots',
-                    'tawkto::messages.admin.menu_title',
+                    'Tawk.to Chat',
                     30,
                     'admin.tawkto'
                 )
