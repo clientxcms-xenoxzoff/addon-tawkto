@@ -29,7 +29,7 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
                 'tawkto',
                 'Tawkto',
                 'Configure your Tawk.to live chat',
-                4,
+                1,
                 null,
                 true,
                 2
