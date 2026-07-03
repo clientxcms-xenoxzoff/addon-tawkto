@@ -63,7 +63,7 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
                     require addon_path($this->uuid, 'routes/admin.php');
                 });
 
-            //$this->injectWidget();
+            $this->injectWidget();
         } catch (\Throwable $e) {
         }
     }
