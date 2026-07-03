@@ -24,8 +24,6 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
             }
 
             $this->loadViews();
-            $this->loadTranslations();
-            $this->loadMigrations();
 
             $this->app['settings']->addCard(
                 'tawkto',
@@ -34,7 +32,7 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
                 4,
                 null,
                 true,
-                8
+                4
             );
 
             $this->app['settings']->addCardItem(
