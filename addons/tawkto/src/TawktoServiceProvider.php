@@ -18,54 +18,53 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
 
     public function boot()
     {
-        try {
-            if (!is_installed()) {
-                return;
-            }
-
-            app('view')->addNamespace('tawkto_admin', __DIR__ . '/../views/admin');
-
-            $this->app['settings']->addCard(
-                'tawkto',
-                'Tawkto',
-                'Configure your Tawk.to live chat',
-                4,
-                null,
-                true,
-                1
-            );
-
-            $this->app['settings']->addCardItem(
-                'tawkto',
-                'tawkto',
-                'Tawk.to Configuration',
-                'Enter your Tawk.to direct chat link',
-                'bi bi-chat-dots',
-                [TawktoAdminController::class, 'showSettings'],
-                'admin.tawkto'
-            );
-
-            $this->app['extension']->addAdminMenuItem(
-                new AdminMenuItem(
-                    'tawkto',
-                    'tawkto.admin',
-                    'bi bi-chat-dots',
-                    'Tawk.to Chat',
-                    30,
-                    'admin.tawkto'
-                )
-            );
-
-            \Route::middleware(['web', 'admin'])
-                ->prefix(admin_prefix())
-                ->name($this->uuid . '.')
-                ->group(function () {
-                    require addon_path($this->uuid, 'routes/admin.php');
-                });
-
-            $this->injectWidget();
-        } catch (\Throwable $e) {
+        if (!is_installed()) {
+            return;
         }
+
+        $this->loadViews();
+        $this->loadTranslations();
+        $this->loadMigrations();
+
+        $this->app['settings']->addCard(
+            'tawkto',
+            'Tawkto',
+            'Configure your Tawk.to live chat',
+            4,
+            null,
+            true,
+            1
+        );
+
+        $this->app['settings']->addCardItem(
+            'tawkto',
+            'tawkto',
+            'Tawk.to Configuration',
+            'Enter your Tawk.to direct chat link',
+            'bi bi-chat-dots',
+            [TawktoAdminController::class, 'showSettings'],
+            'admin.tawkto'
+        );
+
+        $this->app['extension']->addAdminMenuItem(
+            new AdminMenuItem(
+                'tawkto',
+                'tawkto.admin',
+                'bi bi-chat-dots',
+                'Tawk.to Chat',
+                30,
+                'admin.tawkto'
+            )
+        );
+
+        \Route::middleware(['web', 'admin'])
+            ->prefix(admin_prefix())
+            ->name($this->uuid . '.')
+            ->group(function () {
+                require addon_path($this->uuid, 'routes/admin.php');
+            });
+
+        $this->injectWidget();
     }
 
     protected function injectWidget()
