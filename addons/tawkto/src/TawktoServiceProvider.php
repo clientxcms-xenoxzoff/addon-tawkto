@@ -25,19 +25,8 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
 
             $this->loadViews();
             $this->loadTranslations();
-
-            $this->app['settings']->addCard(
-                'tawkto',
-                __('tawkto::messages.admin.title'),
-                __('tawkto::messages.admin.subheading'),
-                1,
-                null,
-                true,
-                2
-            );
-
             $this->app['settings']->addCardItem(
-                'tawkto',
+                'personnalization',
                 'tawkto',
                 __('tawkto::messages.admin.settings.title'),
                 __('tawkto::messages.admin.settings.description'),
