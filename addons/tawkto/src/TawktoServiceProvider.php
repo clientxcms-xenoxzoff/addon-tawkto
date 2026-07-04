@@ -45,18 +45,7 @@ class TawktoServiceProvider extends BaseAddonServiceProvider
                 [TawktoAdminController::class, 'showSettings'],
                 null
             );
-
-            $this->app['extension']->addAdminMenuItem(
-                new AdminMenuItem(
-                    'tawkto',
-                    'tawkto.admin',
-                    'bi bi-chat-dots',
-                    __('tawkto::messages.admin.menu_title'),
-                    30,
-                    'admin.all'
-                )
-            );
-
+            
             \Route::middleware(['web', 'admin'])
                 ->prefix(admin_prefix())
                 ->name($this->uuid . '.')
